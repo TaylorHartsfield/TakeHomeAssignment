@@ -21,11 +21,11 @@ class Appointment(db.Model):
     _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.Text, db.ForeignKey("users.username"), nullable=False)
     date = db.Column(db.Date)
-    time = db.Column(db.Time)
+    time = db.Column(db.String)
 
     def __repr__(self):
         """A reader friendly view of the Appointment"""
-        return f"<Appointment id:{self._id} user:{self.user_id} Date:{self.date} Time:{self.time}>"
+        return f"<Appointment id:{self._id} user:{self.username} Date:{self.date} Time:{self.time}>"
 
 
 def connect_to_app(app):

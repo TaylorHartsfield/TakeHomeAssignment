@@ -26,10 +26,11 @@ def user_appointments(username):
 
 
 
-def book_date(date, username):
+def book_appoointment(date, time, username):
 
     book = model.Appointment(
                             date=date,
+                            time=time,
                             username=username
                             )
 
@@ -40,32 +41,32 @@ def book_date(date, username):
 
 
 def get_times(date):
-    pass
+        
+    taken = model.Appointment.query.filter_by(date=date).all()
+   
+    if not taken:
+        return None
+
+    times = set()
+
+    for appointment in taken:
+        times.add(appointment.time)
     
-    # taken = model.Appointment.query.filter_by(date=date).all()
+    all_time = []
 
-    # if not taken:
-    #     return None
+    for i in range(24):
+        hour = time(i,0)
+        if hour in times:
+            continue
+        all_time.append(hour)
 
-    # times = set()
+        half = time(i,30)
+        if half in times:
+            continue
+        all_time.append(half)
+   
 
-    # for time in taken:
-    #     times.add(time)
-    
-    # all_time = []
-
-    # for i in range(24):
-    #     hour = time(i,0)
-    #     if hour in times:
-    #         continue
-    #     all_time.append(hour)
-
-    #     half = time(i,30)
-    #     if half in times:
-    #         continue
-    #     all_time.append(half)
-
-    # return all_time
+    return all_time
 
 
     
