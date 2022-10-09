@@ -4,15 +4,21 @@ import 'react-calendar/dist/Calendar.css'
 import {format} from 'date-fns';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import Messages from "./Messages";
 import Col from 'react-bootstrap/Col'
 
 export default function Book(){
 
     let   [date, setDate] = useState(null)
+    const [isOpen, setIsOpen] = useState(false)
     const [available, setAvailable] = useState([])
     const [time, setTime] = useState (null)
     const [message, setMessage] = useState('')
-  
+    
+    function hideModal(){
+        setIsOpen(false)
+      }
+    
     useEffect(()=>{
         // Abandon effect if no date selected
         if(!date) return;
@@ -27,8 +33,11 @@ export default function Book(){
         .then((data) =>{
             if (data.message){
                 setMessage(data.message)
+                setIsOpen(true)
+                setAvailable([])
             } else {
-            setAvailable(data.available)}
+            setAvailable(data.available)
+            setMessage('')}
         })
     
     }, [date])
@@ -58,20 +67,19 @@ export default function Book(){
 
     }, [time])
 
-
+   
     return(
         <div>
             <Container>
-            {message}
+            <Messages message={message} isOpen={isOpen} hideModal={hideModal}/>
             <Row>
-            <Calendar onChange={e => setDate(e)} value={date}/>
+            <Calendar minDate={new Date()} onChange={e => setDate(e)} value={date}/>
             </Row>
-            <div className="selected">Selected date: {date?.toDateString()}</div>
             <div className="times">
             {available.map(time => {
                 return(
                     <div>
-                        <button value={time} onClick={(e) => setTime(e.target.value)}>{time}</button>
+                        <button value={time} onClick={(e) => setDate(e.target.value)}>{time}</button>
                     </div>
                 )
             })}

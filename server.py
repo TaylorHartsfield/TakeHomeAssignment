@@ -64,12 +64,14 @@ def login(username):
     user = crud.user_login(username)
     booked_appointments = []
 
+
     if user:
         session['user'] = username
         appointments = crud.user_appointments(username)
 
         for appointment in appointments:
             booked_appointments.append(f"{appointment.date.strftime('%B %d, %Y')} at {time_formats[appointment.time.isoformat()]}")
+          
 
         return jsonify({"user": user.username,
                         "appointments": booked_appointments})
@@ -108,13 +110,11 @@ def book():
 def all_appointments(date):
     
     user = session['user']
-    appointments = crud.user_appointments(user)
-
-    for appointment in appointments:
-        print(appointment.date)
-        if date == appointment.date:
-            print("WE ARE THE SAME")
-            return jsonify({"message": "You are already booked for this day. Pick another day. #TOOMUCHMELONS!"})
+    booked = crud.user_appointments(user)
+   
+    for res in booked:
+        if date == str(res.date):
+            return jsonify({"message": "You have already booked for this date. That's #TOOMUCHMELONS!"})
 
     taken = crud.get_times(date)
 

@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from "react";
-import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login'
 import Register from './components/Register'
 import Book from "./components/BookAppointment";
 import Profile from "./components/Profile";
+import Messages from "./components/Messages";
 
 export default function App(){
 
   const [user, setUser] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false)
   const [message, setMessage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [appointments, setAppointments] = useState([])
   const [register, setRegister] = useState(false)
- 
+  const blocked = []
+
+  function handleToggle() {
+    setRegister(!register)
+  }
+
+  function hideModal(){
+    setIsOpen(false)
+  }
+
+  for (const booked of appointments){
+      blocked.push(new Date(booked))
+  }
 
   function handleOnClick(e, username, value) {
 
@@ -37,6 +50,7 @@ export default function App(){
         setIsOpen(true))
       } else {
         setUser(data.user)
+        setLoggedIn(true)
         setAppointments(data.appointments)
     }})
   } 
@@ -58,33 +72,18 @@ export default function App(){
       }
       else {
         setUser(data.user)
+        setLoggedIn(true)
         setAppointments(data.appointments)
     }})
   }
   }
   
-  function handleToggle() {
-    setRegister(!register)
-  }
-
-  function hideModal(){
-    setIsOpen(false)
-  }
-
-  function Messages({message}){
-    return (
-      <Modal show={isOpen}>
-        <Modal.Header closeButton onClick={hideModal}></Modal.Header>
-        <Modal.Body>{message}</Modal.Body>
-      </Modal>
-    )
-  }
   return (
     <div>
-       <Messages message={message}/>
+       <Messages message={message} isOpen={isOpen} hideModal={hideModal}/>
       {user ? <Profile user={user} appointments={appointments} /> : <Login onClick={handleOnClick} toggle={handleToggle} />}
       {register ? <Register onClick={handleOnClick} /> : null}
-     <Book />
+      {loggedIn ? <Book loggedIn={user}/> : null}
     </div>
   )
 }

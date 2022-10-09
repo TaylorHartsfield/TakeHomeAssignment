@@ -43,7 +43,7 @@ def book_appoointment(date, time, username):
 def get_times(date):
         
     taken = model.Appointment.query.filter_by(date=date).all()
-   
+    
     if not taken:
         return None
 
