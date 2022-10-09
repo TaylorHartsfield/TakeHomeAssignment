@@ -6,7 +6,7 @@ import {format} from 'date-fns';
 
 export default function Book(){
 
-    var [date, setDate] = useState(null)
+    let   [date, setDate] = useState(null)
     const [available, setAvailable] = useState([])
     const [time, setTime] = useState (null)
     const [message, setMessage] = useState('')
@@ -51,10 +51,13 @@ export default function Book(){
         })
         .then((res) => res.json())
         .then((message) =>
-        setMessage(message.message))
+        setMessage(message.message),
+        setAvailable([]))
+
     }, [time])
 
     console.log(date)
+    console.log(time)
 
     return(
         <div>

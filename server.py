@@ -102,9 +102,10 @@ def book():
 
 @app.route('/api/available/<date>')
 def all_appointments(date):
-    
-    taken = crud.get_times(date)
+    print(date, 'this date')
 
+    taken = crud.get_times(date)
+    print(taken)
     times = []
 
     if not taken:
@@ -112,8 +113,8 @@ def all_appointments(date):
         for i in range(24):
             hour = time(i,0)
             half = time(i,30)
-            times.append(hour)
-            times.append(half)
+            times.append(time_formats[hour.isoformat()])
+            times.append(time_formats[half.isoformat()])
     else:
         for available in taken:
             times.append(time_formats[available.isoformat()])
