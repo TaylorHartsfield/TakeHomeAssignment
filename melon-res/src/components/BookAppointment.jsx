@@ -81,8 +81,7 @@ export default function Book(){
                     <div>
                         <button value={time} onClick={(e) => setDate(e.target.value)}>{time}</button>
                     </div>
-                )
-            })}
+                )})}
             </div>
             </Container>
         </div>
