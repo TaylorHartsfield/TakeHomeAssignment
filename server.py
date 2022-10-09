@@ -7,7 +7,6 @@ import crud
 app = Flask(__name__)
 app.secret_key='dev'
 
-
 time_formats = {
 '00:00:00' : '12:00 AM',
 '00:30:00' : '12:30 AM',
@@ -63,12 +62,17 @@ time_formats = {
 def login(username):
 
     user = crud.user_login(username)
+    booked_appointments = []
 
     if user:
         session['user'] = username
         appointments = crud.user_appointments(username)
+
+        for appointment in appointments:
+            booked_appointments.append(f"{appointment.date.strftime('%B %d, %Y')} at {time_formats[appointment.time.isoformat()]}")
+
         return jsonify({"user": user.username,
-                        "appointments": appointments})
+                        "appointments": booked_appointments})
     else:
         return jsonify({"message": "Username does not exist. Register or try again."})
     
@@ -102,10 +106,18 @@ def book():
 
 @app.route('/api/available/<date>')
 def all_appointments(date):
-    print(date, 'this date')
+    
+    user = session['user']
+    appointments = crud.user_appointments(user)
+
+    for appointment in appointments:
+        print(appointment.date)
+        if date == appointment.date:
+            print("WE ARE THE SAME")
+            return jsonify({"message": "You are already booked for this day. Pick another day. #TOOMUCHMELONS!"})
 
     taken = crud.get_times(date)
-    print(taken)
+
     times = []
 
     if not taken:

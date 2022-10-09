@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'
-import Time from "./Time";
 import {format} from 'date-fns';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 export default function Book(){
 
@@ -10,10 +12,7 @@ export default function Book(){
     const [available, setAvailable] = useState([])
     const [time, setTime] = useState (null)
     const [message, setMessage] = useState('')
-    const [showTimes, setShowTimes] = useState(false)
-    const [appointment, setAppointment] = useState(null)
-
-
+  
     useEffect(()=>{
         // Abandon effect if no date selected
         if(!date) return;
@@ -26,7 +25,10 @@ export default function Book(){
         fetch(`/api/available/${date}`)
         .then((res) =>res.json())
         .then((data) =>{
-            setAvailable(data.available)
+            if (data.message){
+                setMessage(data.message)
+            } else {
+            setAvailable(data.available)}
         })
     
     }, [date])
@@ -56,13 +58,14 @@ export default function Book(){
 
     }, [time])
 
-    console.log(date)
-    console.log(time)
 
     return(
         <div>
+            <Container>
             {message}
+            <Row>
             <Calendar onChange={e => setDate(e)} value={date}/>
+            </Row>
             <div className="selected">Selected date: {date?.toDateString()}</div>
             <div className="times">
             {available.map(time => {
@@ -73,6 +76,7 @@ export default function Book(){
                 )
             })}
             </div>
+            </Container>
         </div>
     )
 }

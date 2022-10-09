@@ -21,7 +21,7 @@ class Appointment(db.Model):
     _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.Text, db.ForeignKey("users.username"), nullable=False)
     date = db.Column(db.Date)
-    time = db.Column(db.String)
+    time = db.Column(db.Time)
 
     def __repr__(self):
         """A reader friendly view of the Appointment"""
@@ -30,7 +30,7 @@ class Appointment(db.Model):
 
 def connect_to_app(app):
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///melonAppointments"
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_ECHO'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
