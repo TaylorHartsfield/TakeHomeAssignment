@@ -20,6 +20,7 @@ export default function App(){
   const [isOpen, setIsOpen] = useState(false)
   const [appointments, setAppointments] = useState([])
  
+
   function onRegister(e) {
     setNewAccount(e.target.value)
   }
@@ -31,6 +32,7 @@ export default function App(){
   function handleOnChange(e) {
     setUsername(e.target.value)
   }
+
   function handleOnClick(e, username, value) {
 
     const data = {
@@ -80,13 +82,25 @@ export default function App(){
     }})
   }
   }
+
+  function handleLogOut(){
+
+    fetch('/logout')
+    .then(res => res.json)
+    .then(data => {
+      setUser('')
+      setLoggedIn(false)
+      setUsername('')
+    })
+
+  }
   
   return (
     <Container className="main">
        <Messages message={message} isOpen={isOpen} hideModal={hideModal}/>
        <Row className="main">
         <Col>
-      {user ? <Profile user={user} appointments={appointments} /> : <Login onChange={handleOnChange} onRegister={onRegister} newaccount={newaccount} username={username} onClick={handleOnClick}/>}
+      {user ? <Profile user={user} appointments={appointments} logout={handleLogOut} /> : <Login onChange={handleOnChange} onRegister={onRegister} newaccount={newaccount} username={username} onClick={handleOnClick}/>}
   
       </Col>
       <Col>

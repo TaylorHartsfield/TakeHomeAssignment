@@ -77,7 +77,14 @@ def login(username):
                         "appointments": booked_appointments})
     else:
         return jsonify({"message": "Username does not exist. Register or try again."})
-    
+
+@app.route('/logout')
+def logout():
+
+    session.clear()
+
+    return jsonify({"message" : "success"})
+
 
 @app.route('/api/register',  methods=["POST"])
 def register():
