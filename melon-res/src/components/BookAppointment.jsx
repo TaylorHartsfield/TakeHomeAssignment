@@ -15,6 +15,7 @@ export default function Book(){
     const [time, setTime] = useState (null)
     const [message, setMessage] = useState('')
     
+
     function hideModal(){
         setIsOpen(false)
       }
@@ -67,19 +68,21 @@ export default function Book(){
 
     }, [time])
 
-   
+
     return(
         <div>
             <Container>
             <Messages message={message} isOpen={isOpen} hideModal={hideModal}/>
-            <Row>
+            <Row className="main">
+            <Col>
             <Calendar minDate={new Date()} onChange={e => setDate(e)} value={date}/>
+            </Col>
             </Row>
             <div className="times">
             {available.map(time => {
                 return(
                     <div>
-                        <button value={time} onClick={(e) => setDate(e.target.value)}>{time}</button>
+                        <button value={time} onClick={(e) => setTime(e.target.value)}>{time}</button>
                     </div>
                 )})}
             </div>

@@ -1,41 +1,44 @@
 import {useState} from "react";
 import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
-export default function Login({onClick, toggle}){
 
-    const [username, setUsername] = useState('')
-
-    function handleOnChange(e) {
-        setUsername(e.target.value);
-    }
+export default function Login({onClick, username, newaccount, onChange, onRegister}){
 
     function onClickWrapper(e) {
         const value = "login"
-        onClick(e, username, value)
+        onClick(e, username, value);
     }
+    
+    function onClickRegisterWrapper(e) {
+        const value="register"
+        onClick(e,newaccount,value);
+    }
+
 
     return (
         <div>
-            <Container>
-            <Row>
-                <Col>
-                    <h3>Login</h3>
-                    <input 
-                    type="text" 
-                    placeholder="Enter Username..." 
-                    name="username" 
-                    value={username}
-                    onChange={handleOnChange}/>
-                    <button 
-                    onClick={onClickWrapper}>Enter
-                    </button>
-                </Col>
-                <Col>
-                    <h6>No account? <button onClick={toggle}>Register Here</button></h6>
-                </Col>
-            </Row>
+            <Container> 
+                <Card>
+                <h3>Login</h3>
+                                <input 
+                                    type="text" 
+                                    placeholder="Enter Username..." 
+                                    name="username" 
+                                    value={username}
+                                    onChange={onChange}/>
+                            <button onClick={onClickWrapper}> Enter </button>
+                            
+                       
+                            <h3>Register</h3>
+                                <input 
+                                type="text" 
+                                value={newaccount} 
+                                placeholder="Enter Username..." 
+                                onChange={onRegister}/>
+                            <button onClick={onClickRegisterWrapper}> Register </button>
+                </Card>
             </Container>
         </div>
     )

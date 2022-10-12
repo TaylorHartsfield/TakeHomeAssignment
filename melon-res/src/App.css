@@ -2,6 +2,9 @@
   text-align: center;
 }
 
+.root{
+  background-image: url('/public/melon\ background.jpeg');
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +38,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.main container{
+  max-width: 100px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+Row {
+  max-width: 100vh;
+  text-align: center;
 }

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Login from './components/Login'
 import Register from './components/Register'
 import Book from "./components/BookAppointment";
@@ -8,26 +12,25 @@ import Messages from "./components/Messages";
 
 export default function App(){
 
+  const [username, setUsername] = useState('')
+  const [newaccount, setNewAccount] = useState('')
   const [user, setUser] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [message, setMessage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [appointments, setAppointments] = useState([])
-  const [register, setRegister] = useState(false)
-  const blocked = []
-
-  function handleToggle() {
-    setRegister(!register)
+ 
+  function onRegister(e) {
+    setNewAccount(e.target.value)
   }
 
   function hideModal(){
     setIsOpen(false)
   }
 
-  for (const booked of appointments){
-      blocked.push(new Date(booked))
+  function handleOnChange(e) {
+    setUsername(e.target.value)
   }
-
   function handleOnClick(e, username, value) {
 
     const data = {
@@ -79,12 +82,18 @@ export default function App(){
   }
   
   return (
-    <div>
+    <Container className="main">
        <Messages message={message} isOpen={isOpen} hideModal={hideModal}/>
-      {user ? <Profile user={user} appointments={appointments} /> : <Login onClick={handleOnClick} toggle={handleToggle} />}
-      {register ? <Register onClick={handleOnClick} /> : null}
-      {loggedIn ? <Book loggedIn={user}/> : null}
-    </div>
+       <Row className="main">
+        <Col>
+      {user ? <Profile user={user} appointments={appointments} /> : <Login onChange={handleOnChange} onRegister={onRegister} newaccount={newaccount} username={username} onClick={handleOnClick}/>}
+  
+      </Col>
+      <Col>
+      {loggedIn ? <Book loggedIn={user}/> : null }
+      </Col>
+    </Row>
+    </Container>
   )
 }
 
