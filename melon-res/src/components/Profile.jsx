@@ -10,8 +10,7 @@ export default function Profile({logout, user, appointments}){
             <Container className='main'>
                 <Row className="main">
                    
-            <h3 style={{textDecoration:"underline"}}>Welcome, {user}!</h3>
-            <button  onClick={logout}>Logout</button>
+            <h3 style={{textDecoration:"underline"}}>Welcome, {user}!<button onClick={logout}>Logout</button></h3>
             <h6><em>We look forward to tasting Melons with you on:</em></h6>
             {appointments ? 
             <ul>

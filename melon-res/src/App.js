@@ -5,10 +5,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Login from './components/Login'
-import Register from './components/Register'
 import Book from "./components/BookAppointment";
 import Profile from "./components/Profile";
 import Messages from "./components/Messages";
+
 
 export default function App(){
 
@@ -19,7 +19,6 @@ export default function App(){
   const [message, setMessage] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [appointments, setAppointments] = useState([])
- 
 
   function onRegister(e) {
     setNewAccount(e.target.value)
@@ -99,14 +98,9 @@ export default function App(){
     <Container className="main">
        <Messages message={message} isOpen={isOpen} hideModal={hideModal}/>
        <Row className="main">
-        <Col>
       {user ? <Profile user={user} appointments={appointments} logout={handleLogOut} /> : <Login onChange={handleOnChange} onRegister={onRegister} newaccount={newaccount} username={username} onClick={handleOnClick}/>}
-  
-      </Col>
-      <Col>
       {loggedIn ? <Book loggedIn={user}/> : null }
-      </Col>
-    </Row>
+      </Row>
     </Container>
   )
 }

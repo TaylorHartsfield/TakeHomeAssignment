@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Messages from "./Messages";
 import Col from 'react-bootstrap/Col'
+import TimeSelect from "./TimeRange";
 
 export default function Book(){
 
@@ -14,10 +15,15 @@ export default function Book(){
     const [available, setAvailable] = useState([])
     const [time, setTime] = useState (null)
     const [message, setMessage] = useState('')
+    const [dateSelected, setDateSelected] = useState(false)
     
-
+    function handleOnChange(e){
+        setDate(e)
+        setDateSelected(true)
+    }
     function hideModal(){
         setIsOpen(false)
+        setDateSelected(false)
       }
     
     useEffect(()=>{
@@ -73,9 +79,10 @@ export default function Book(){
         <div>
             <Container>
             <Messages message={message} isOpen={isOpen} hideModal={hideModal}/>
+            <TimeSelect hideModal={hideModal} dateSelected={dateSelected} /> 
             <Row className="main">
             <Col>
-            <Calendar minDate={new Date()} onChange={e => setDate(e)} value={date}/>
+            <Calendar minDate={new Date()} onChange={handleOnChange} value={date}/>
             </Col>
             </Row>
             <div className="times">
