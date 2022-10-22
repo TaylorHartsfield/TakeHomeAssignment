@@ -52,7 +52,7 @@ export default function Book(){
     useEffect(() => {
 
         if(!time) return;
-
+        let value="login"
         date = format(date, 'yyyy-MM-dd')
     
         const new_booking ={
